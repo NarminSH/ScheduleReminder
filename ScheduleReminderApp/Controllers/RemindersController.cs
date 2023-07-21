@@ -41,8 +41,17 @@ namespace ScheduleReminderApp.Controllers
         public async Task<ResponseMessage> CreateReminder([FromBody] CreateReminderDto createReminderDto)
         {
             Reminder newReminder = _mapper.Map<Reminder>(createReminderDto);
-            if (createReminderDto.MethodType == 0){ newReminder.Method = MethodType.Telegram;}
-            else if(createReminderDto.MethodType == 1) { newReminder.Method = MethodType.Email; }
+            if (createReminderDto.MethodType != "Telegram" && createReminderDto.MethodType != "Email" )
+            {
+                return new ResponseMessage
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Message = "Method type can be either Telegram or Email"
+                };
+            }
+            //todo add enum automapper
+            if (createReminderDto.MethodType == "Telegram") { newReminder.Method = MethodType.Telegram;}
+            else if(createReminderDto.MethodType == "Email") { newReminder.Method = MethodType.Email; }
             bool result = await _reminderRepository.AddAsync(newReminder);
             if (result)
             {

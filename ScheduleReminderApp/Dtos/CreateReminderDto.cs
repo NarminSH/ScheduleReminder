@@ -7,7 +7,7 @@ namespace ScheduleReminderApp.Dtos
     {
         public string UserEmailAddress { get; set; } = null!;
         public string Content { get; set; } = null!;
-        public int MethodType { get; set; } 
+        public string MethodType { get; set; } 
         public DateTime SendAt { get; set; }
     }
 }
